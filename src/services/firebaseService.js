@@ -1,5 +1,5 @@
 import { db } from '../config/firebase';
-import { collection, addDoc, getDocs, query, where, updateDoc, deleteDoc, doc, orderBy } from 'firebase/firestore';
+import { collection, addDoc, getDocs, query, where, updateDoc, deleteDoc, doc, orderBy, getDoc, setDoc } from 'firebase/firestore';
 
 const getCurrentYearMonth = () => {
   const now = new Date();
@@ -112,11 +112,22 @@ export const deleteGasto = async (yearMonth, gastoId) => {
 
 export const getMonthState = async (yearMonth) => {
   try {
-    return {
-      yearMonth: yearMonth,
-      isClosed: false,
-      debtPaid: false,
-    };
+    const monthRef = doc(db, 'gastitos', yearMonth, '_metadata', 'state');
+    const monthSnap = await getDoc(monthRef);
+    
+    if (monthSnap.exists()) {
+      return {
+        yearMonth: yearMonth,
+        isClosed: monthSnap.data().isClosed || false,
+        debtPaid: monthSnap.data().debtPaid || false,
+      };
+    } else {
+      return {
+        yearMonth: yearMonth,
+        isClosed: false,
+        debtPaid: false,
+      };
+    }
   } catch (error) {
     console.error('Error al obtener estado del mes:', error);
     return { yearMonth, isClosed: false, debtPaid: false };
@@ -126,10 +137,12 @@ export const getMonthState = async (yearMonth) => {
 export const markDebtAsPaid = async (yearMonth) => {
   try {
     const monthRef = doc(db, 'gastitos', yearMonth, '_metadata', 'state');
-    await updateDoc(monthRef, {
+    
+    await setDoc(monthRef, {
       debtPaid: true,
       debtPaidDate: new Date().toISOString(),
-    });
+      isClosed: false,
+    }, { merge: true });
   } catch (error) {
     console.error('Error al marcar deuda como saldada:', error);
     throw error;
