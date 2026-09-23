@@ -17,14 +17,12 @@ function App() {
     }
   }, []);
 
-  // Actualizar currentMonth al mes actual cuando se loguea
+   // Forzar update de currentMonth al mes actual siempre
   useEffect(() => {
-    if (isLoggedIn) {
-      const now = new Date();
-      const actualMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
-      setCurrentMonth(actualMonth);
-    }
-  }, [isLoggedIn]);
+    const now = new Date();
+    const actualMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+    setCurrentMonth(actualMonth);
+  }, []);
 
   const handleLogin = () => {
     setIsLoggedIn(true);
