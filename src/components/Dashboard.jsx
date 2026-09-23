@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getGastosByMonth, calculateDebts, addGasto, updateGasto, deleteGasto, getAllMonths } from '../services/firebaseService';
+import { getGastosByMonth, calculateDebts, addGasto, updateGasto, deleteGasto, getAllMonths, getMonthState, markDebtAsPaid } from '../services/firebaseService';
 import ResumenMes from './ResumenMes';
 import CargarGasto from './CargarGasto';
 import Transacciones from './Transacciones';
@@ -25,6 +25,10 @@ export default function Dashboard({ currentMonth, setCurrentMonth, onLogout }) {
       
       const debtsData = await calculateDebts(currentMonth);
       setDebts(debtsData);
+      
+      // Cargar si deuda fue saldada en este mes
+      const monthState = await getMonthState(currentMonth);
+      setDebtPaid(monthState.debtPaid || false);
     } catch (error) {
       console.error('Error cargando datos:', error);
     }
@@ -62,8 +66,14 @@ export default function Dashboard({ currentMonth, setCurrentMonth, onLogout }) {
     }
   };
 
-  const handleMarkDebtAsPaid = () => {
-    setDebtPaid(true);
+  const handleMarkDebtAsPaid = async () => {
+    try {
+      await markDebtAsPaid(currentMonth);
+      setDebtPaid(true);
+    } catch (error) {
+      console.error('Error al marcar deuda saldada:', error);
+      alert('Error al marcar deuda saldada');
+    }
   };
 
   const handleCloseMonth = () => {
