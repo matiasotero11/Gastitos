@@ -17,7 +17,8 @@ export default function Transacciones({ currentMonth, gastos, onEdit, onDelete, 
     return gasto.amount / 2;
   };
 
-  const monthName = new Date(`${currentMonth}-01`).toLocaleDateString('es-AR', { month: 'long', year: 'numeric' });
+  const [year, month] = currentMonth.split('-');
+  const monthName = new Date(parseInt(year), parseInt(month) - 1, 1).toLocaleDateString('es-AR', { month: 'long', year: 'numeric' });
 
   return (
     <div className="transacciones">
