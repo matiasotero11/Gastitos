@@ -62,8 +62,8 @@ export default function ResumenMes({ currentMonth, gastos, debts, debtPaid, onMa
         <h3>💰 DEUDAS PENDIENTES</h3>
         {!debtPaid ? (
           <div className="debts-card">
-            <p>Rocío te debe: <strong>${debts.rocioOwes.toLocaleString('es-AR')}</strong></p>
-            <p>Tú le debes: <strong>${debts.matiasOwes.toLocaleString('es-AR')}</strong></p>
+            <p>Rocio le debe a Matias: <strong>${debts.rocioOwes.toLocaleString('es-AR')}</strong></p>
+            <p>Matias le debe a Rocio: <strong>${debts.matiasOwes.toLocaleString('es-AR')}</strong></p>
             <p className="net-debt">
               DEUDA NETA: {debts.whoOwes === 'Rocío' ? '✓' : ''} {debts.whoOwes} debe ${debts.netDebtAbs.toLocaleString('es-AR')}
             </p>
