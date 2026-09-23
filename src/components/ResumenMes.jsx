@@ -18,7 +18,8 @@ export default function ResumenMes({ currentMonth, gastos, debts, debtPaid, onMa
     value: amount,
   }));
 
-  const monthName = new Date(`${currentMonth}-01`).toLocaleDateString('es-AR', { month: 'long', year: 'numeric' });
+  const [year, month] = currentMonth.split('-');
+  const monthName = new Date(parseInt(year), parseInt(month) - 1, 1).toLocaleDateString('es-AR', { month: 'long', year: 'numeric' });
 
   return (
     <div className="resumen-mes">
@@ -34,7 +35,7 @@ export default function ResumenMes({ currentMonth, gastos, debts, debtPaid, onMa
           <p className="card-value">${debts.totalGastado.toLocaleString('es-AR')}</p>
         </div>
         <div className="card">
-          <p className="card-label">TU GASTO</p>
+          <p className="card-label">GASTO DE MATÍAS</p>
           <p className="card-value">${debts.matiasGastado.toLocaleString('es-AR')}</p>
         </div>
         <div className="card">
@@ -62,8 +63,8 @@ export default function ResumenMes({ currentMonth, gastos, debts, debtPaid, onMa
         <h3>💰 DEUDAS PENDIENTES</h3>
         {!debtPaid ? (
           <div className="debts-card">
-            <p>Rocio le debe a Matias: <strong>${debts.rocioOwes.toLocaleString('es-AR')}</strong></p>
-            <p>Matias le debe a Rocio: <strong>${debts.matiasOwes.toLocaleString('es-AR')}</strong></p>
+            <p>Rocío le debe a Matías: <strong>${debts.rocioOwes.toLocaleString('es-AR')}</strong></p>
+            <p>Matías le debe a Rocío: <strong>${debts.matiasOwes.toLocaleString('es-AR')}</strong></p>
             <p className="net-debt">
               DEUDA NETA: {debts.whoOwes === 'Rocío' ? '✓' : ''} {debts.whoOwes} debe ${debts.netDebtAbs.toLocaleString('es-AR')}
             </p>
