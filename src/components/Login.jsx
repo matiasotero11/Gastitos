@@ -27,7 +27,7 @@ export default function Login({ onLogin }) {
     <div className="login-container">
       <div className="login-card">
         <div className="logo">
-  <img src="/Logo_Gastitos.png" alt="Gastitos Logo" style={{width: '100%', height: '100%'}} />
+  <img src="https://i.imgur.com/GrlWFaq.png" alt="Gastitos Logo" style={{width: '100%', height: '100%'}} />
 </div>
         <h1>GASTITOS</h1>
         <p className="subtitle">v1.0</p>
