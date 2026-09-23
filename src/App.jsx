@@ -17,6 +17,15 @@ function App() {
     }
   }, []);
 
+  // Actualizar currentMonth al mes actual cuando se loguea
+  useEffect(() => {
+    if (isLoggedIn) {
+      const now = new Date();
+      const actualMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+      setCurrentMonth(actualMonth);
+    }
+  }, [isLoggedIn]);
+
   const handleLogin = () => {
     setIsLoggedIn(true);
     localStorage.setItem('gastitos_logged_in', 'true');
